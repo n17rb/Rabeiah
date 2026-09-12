@@ -32,8 +32,12 @@ router.post("/login", async (req, res) => {
   }
 
   const token = signToken(user);
+  
+  // إرجاع البيانات بكل الصيغ المحتملة لضمان عدم حدوث خطأ في الواجهة الأمامية
   res.json({
-    token,
+    token: token,
+    access_token: token,
+    data: { token: token },
     user: {
       id: user.id,
       username: user.username,
