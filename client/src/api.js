@@ -32,7 +32,16 @@ async function request(path, { method = "GET", body, isFormData = false } = {}) 
 export const api = {
   setupStatus: () => request("/setup/status"),
   createFirstAdmin: (body) => request("/setup/create-first-admin", { method: "POST", body }),
-  login: (body) => request("/auth/login", { method: "POST", body }),
+  
+  // تعديل الـ login ليدعم كل الصيغ ويضمن إرجاع f.token و token معاً لكي لا يحدث أي خطأ أبداً
+  login: async (body) => {
+    const data = await request("/auth/login", { method: "POST", body });
+    return {
+      ...data,
+      token: data?.token || data?.f?.token || data?.access_token,
+      f: data?.f || { token: data?.token || data?.access_token }
+    };
+  },
 
   getCustomers: (q) => request(`/customers${q ? `?q=${encodeURIComponent(q)}` : ""}`),
   getCustomer: (id) => request(`/customers/${id}`),
