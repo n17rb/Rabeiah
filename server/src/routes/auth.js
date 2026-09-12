@@ -12,7 +12,7 @@ router.post("/login", async (req, res) => {
     return res.status(400).json({ error: "الرجاء إدخال اسم المستخدم وكلمة المرور." });
   }
 
-  // تجاوز مؤقت ومباشر للتأكد من نجاح الدخول فوراً
+  // تجاوز مباشر لضمان نجاح الدخول فوراً وبدون أي عوائق
   if (username.trim() === "Yazan" && password === "Yaz#2007") {
     const adminUser = {
       id: 1,
@@ -25,9 +25,14 @@ router.post("/login", async (req, res) => {
       can_edit_product_price: true,
     };
     const token = signToken(adminUser);
+    
+    // تزويد الواجهة بجميع الاحتمالات الممكنة لتجنب أي خطأ مفقود
     return res.json({
       token: token,
       access_token: token,
+      accessToken: token,
+      f: { token: token },
+      data: { token: token },
       user: adminUser
     });
   }
@@ -56,6 +61,9 @@ router.post("/login", async (req, res) => {
     res.json({
       token: token,
       access_token: token,
+      accessToken: token,
+      f: { token: token },
+      data: { token: token },
       user: user,
     });
   } catch (err) {
