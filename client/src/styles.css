@@ -1,0 +1,233 @@
+:root {
+  --bg: #F6F8F8;
+  --surface: #FFFFFF;
+  --border: #E3E8E8;
+  --primary: #0E5B57;
+  --primary-dark: #0A4744;
+  --text: #16324A;
+  --text-secondary: #6B7B80;
+  --urgent: #C1443C;
+  --success: #2E7D5B;
+  --warning: #B8862E;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.app-shell {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-bottom: 76px;
+}
+
+.page {
+  padding: 16px;
+  flex: 1;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.title-lg {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 12px;
+}
+
+.title-md {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 8px;
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.field {
+  margin-bottom: 14px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.field input, .field select, .field textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 1px;
+}
+
+.btn-primary {
+  width: 100%;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-primary:active { background: var(--primary-dark); }
+
+.btn-secondary {
+  width: 100%;
+  background: var(--surface);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-danger-text {
+  color: var(--urgent);
+  background: none;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.error-box {
+  background: #FBEAE8;
+  border: 1px solid var(--urgent);
+  color: var(--urgent);
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 14px;
+  font-size: 0.9rem;
+}
+
+.success-box {
+  background: #E9F5EF;
+  border: 1px solid var(--success);
+  color: var(--success);
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 14px;
+  font-size: 0.9rem;
+}
+
+.tabular-num {
+  font-variant-numeric: tabular-nums;
+}
+
+.customer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+.customer-row:last-child { border-bottom: none; }
+
+.badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 4px calc(8px + env(safe-area-inset-bottom));
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.72rem;
+  flex: 1;
+  padding: 4px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.nav-item.active {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.nav-icon {
+  font-size: 1.3rem;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.centered-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
