@@ -15,6 +15,31 @@ import { UPLOADS_DIR } from "./middleware/upload.js";
 dotenv.config();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// تأكد إنه دالة التهيئة أو الـ pool مضافين، وحط هذا السطر قبل app.listen:
+import { pool } from './db.js'; // أو حسب ملف الاتصال عندك
+
+// دالة لإنشاء الجداول تلقائياً عند الإقلاع
+async function initializeDatabase() {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        phone VARCHAR(20) UNIQUE NOT NULL,
+        pin_code VARCHAR(255) NOT NULL,
+        role VARCHAR(20) DEFAULT 'driver',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+    console.log("Database tables initialized successfully!");
+  } catch (err) {
+    console.error("Error initializing database tables:", err);
+  }
+}
+
+// استدعِ الدالة قبل تشغيل السيرفر
+await initializeDatabase();
+
 const app = express();
 
 app.use(cors());
