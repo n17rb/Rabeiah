@@ -13,11 +13,19 @@ export default function Login({ onLoggedIn }) {
     setLoading(true);
     try {
       const result = await api.login({ username, password });
-      localStorage.setItem("token", result.token);
-      localStorage.setItem("user", JSON.stringify(result.user));
-      onLoggedIn(result.user);
+      // التعامل مع كل الاحتمالات الممكنة لرد الـ API لضمان عدم حدوث أي خطأ
+      const token = result?.token || result?.access_token || result?.f?.token || (typeof result === "string" ? result : null);
+      const user = result?.user || { username };
+
+      if (!token) {
+        throw new Error("فشل الحصول على رمز المصادقة من السيرفر.");
+      }
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      onLoggedIn(user);
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "حدث خطأ أثناء تسجيل الدخول.");
     } finally {
       setLoading(false);
     }
