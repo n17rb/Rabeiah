@@ -19,42 +19,41 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function initializeDatabase() {
   try {
+    // 1. إنشاء الجدول بالأعمدة الصحيحة التي يتوقعها نظام المصادقة
     await pool.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
-        name VARCHAR(100) NOT NULL,
-        phone VARCHAR(20) UNIQUE NOT NULL,
-        pin_code VARCHAR(255) NOT NULL,
-        role VARCHAR(20) DEFAULT 'driver',
+        username VARCHAR(100) UNIQUE NOT NULL,
+        password_hash VARCHAR(255) NOT NULL,
+        status VARCHAR(20) DEFAULT 'active',
+        role VARCHAR(20) DEFAULT 'admin',
+        full_name VARCHAR(100),
+        can_discount BOOLEAN DEFAULT true,
+        can_delete_customer BOOLEAN DEFAULT true,
+        can_edit_product_price BOOLEAN DEFAULT true,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
-    console.log("Database tables initialized successfully!");
+
+    // 2. إنشاء وتشفير حساب الآدمن Yazan تلقائياً إذا لم يكن موجوداً
+    const bcrypt = await import("bcryptjs");
+    const hashedPassword = await bcrypt.hash("Yaz#2007", 10);
+
+    await pool.query(
+      `INSERT INTO users (username, password_hash, status, role, full_name) 
+       VALUES ($1, $2, $3, $4, $5) 
+       ON CONFLICT (username) 
+       DO UPDATE SET password_hash = EXCLUDED.password_hash, status = 'active'`,
+      ["Yazan", hashedPassword, "active", "admin", "Yazan Admin"]
+    );
+
+    console.log("Database tables initialized & Admin Yazan verified successfully!");
   } catch (err) {
     console.error("Error initializing database tables:", err);
   }
 }
 
 await initializeDatabase();
-
-// إنشاء حساب الآدمن الافتراضي تلقائياً
-async function seedDefaultAdmin() {
-  try {
-    const bcrypt = await import("bcryptjs");
-    const existing = await pool.query("SELECT * FROM users WHERE name = $1 OR phone = $2", ["Yazan", "Yazan"]);
-    if (existing.rows.length === 0) {
-      const hashedPassword = await bcrypt.hash("Yaz#2007", 10);
-      await pool.query(
-        "INSERT INTO users (name, phone, pin_code, role) VALUES ($1, $2, $3, $4)",
-        ["Yazan", "Yazan", hashedPassword, "admin"]
-      );
-      console.log("تم إنشاء حساب الآدمن Yazan بنجاح");
-    }
-  } catch (e) {
-    console.error("خطأ في إنشاء الآدمن:", e.message);
-  }
-}
-await seedDefaultAdmin();
 
 const app = express();
 
