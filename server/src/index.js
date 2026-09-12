@@ -36,6 +36,25 @@ async function initializeDatabase() {
 }
 
 await initializeDatabase();
+// إنشاء حساب الآدمن الافتراضي تلقائياً
+async function seedDefaultAdmin() {
+  try {
+    const bcrypt = await import("bcryptjs");
+    const existing = await pool.query("SELECT * FROM users WHERE username = $1", ["Yazan"]);
+    if (existing.rows.length === 0) {
+      const hashedPassword = await bcrypt.hash("Yaz#2007", 10);
+      await pool.query(
+        "INSERT INTO users (username, password, role) VALUES ($1, $2, $3)",
+        ["Yazan", hashedPassword, "admin"]
+      );
+      console.log("تم إنشاء حساب الآدمن Yazan بنجاح");
+    }
+  } catch (e) {
+    console.error("خطأ في إنشاء الآدمن:", e.message);
+  }
+}
+await seedDefaultAdmin();
+
 
 const app = express();
 
