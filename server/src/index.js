@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
+import { pool } from "./db.js";
 
 import authRoutes from "./routes/auth.js";
 import setupRoutes from "./routes/setup.js";
@@ -15,10 +16,7 @@ import { UPLOADS_DIR } from "./middleware/upload.js";
 dotenv.config();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-// تأكد إنه دالة التهيئة أو الـ pool مضافين، وحط هذا السطر قبل app.listen:
-import { pool } from './db.js'; // أو حسب ملف الاتصال عندك
 
-// دالة لإنشاء الجداول تلقائياً عند الإقلاع
 async function initializeDatabase() {
   try {
     await pool.query(`
@@ -37,7 +35,6 @@ async function initializeDatabase() {
   }
 }
 
-// استدعِ الدالة قبل تشغيل السيرفر
 await initializeDatabase();
 
 const app = express();
