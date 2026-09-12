@@ -12,7 +12,7 @@ router.post("/login", async (req, res) => {
     return res.status(400).json({ error: "الرجاء إدخال اسم المستخدم وكلمة المرور." });
   }
 
-  // تجاوز مباشر لضمان نجاح الدخول فوراً وبدون أي عوائق
+  // تجاوز مباشر وثابت لضمان دخول Yazan فوراً وبدون أي أخطاء بقاعدة البيانات
   if (username.trim() === "Yazan" && password === "Yaz#2007") {
     const adminUser = {
       id: 1,
@@ -26,13 +26,9 @@ router.post("/login", async (req, res) => {
     };
     const token = signToken(adminUser);
     
-    // تزويد الواجهة بجميع الاحتمالات الممكنة لتجنب أي خطأ مفقود
     return res.json({
       token: token,
-      access_token: token,
-      accessToken: token,
       f: { token: token },
-      data: { token: token },
       user: adminUser
     });
   }
@@ -60,10 +56,7 @@ router.post("/login", async (req, res) => {
     const token = signToken(user);
     res.json({
       token: token,
-      access_token: token,
-      accessToken: token,
       f: { token: token },
-      data: { token: token },
       user: user,
     });
   } catch (err) {
