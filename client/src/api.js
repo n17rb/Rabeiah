@@ -33,13 +33,21 @@ export const api = {
   setupStatus: () => request("/setup/status"),
   createFirstAdmin: (body) => request("/setup/create-first-admin", { method: "POST", body }),
   
-  // تعديل الـ login ليدعم كل الصيغ ويضمن إرجاع f.token و token معاً لكي لا يحدث أي خطأ أبداً
   login: async (body) => {
-    const data = await request("/auth/login", { method: "POST", body });
+    const res = await fetch(BASE + "/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data?.error || "فشل تسجيل الدخول");
+    
+    const tokenVal = data?.token || data?.f?.token || data?.access_token;
     return {
       ...data,
-      token: data?.token || data?.f?.token || data?.access_token,
-      f: data?.f || { token: data?.token || data?.access_token }
+      token: tokenVal,
+      f: { token: tokenVal },
+      user: data?.user || { username: body.username }
     };
   },
 
