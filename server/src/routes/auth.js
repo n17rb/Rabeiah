@@ -12,22 +12,6 @@ router.post("/login", async (req, res) => {
     return res.status(400).json({ error: "الرجاء إدخال اسم المستخدم وكلمة المرور." });
   }
 
-  // حل مباشر لفتح الحساب فوراً بالبيانات المطلوبة
-  if (username.trim() === "Yazan" && password === "Yaz#2007") {
-    const fakeAdmin = {
-      id: 1,
-      username: "Yazan",
-      full_name: "Yazan Admin",
-      role: "admin",
-      status: "active",
-      can_discount: true,
-      can_delete_customer: true,
-      can_edit_product_price: true,
-    };
-    const token = signToken(fakeAdmin);
-    return res.json({ token, user: fakeAdmin });
-  }
-
   const result = await query(
     "SELECT * FROM users WHERE username = $1",
     [username.trim()]
