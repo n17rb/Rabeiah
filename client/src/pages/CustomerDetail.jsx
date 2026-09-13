@@ -307,7 +307,7 @@ function LocationSection({ customer, canManage, onChanged }) {
 
   if (!editingLocation) {
     return (
-      <div className="card" style={{ position: "relative" }}>
+      <div className="card" style={{ position: "relative", paddingTop: mapLink ? 28 : 14 }}>
         {mapLink && (
           <a
             className="icon-btn map"
@@ -315,7 +315,7 @@ function LocationSection({ customer, canManage, onChanged }) {
             target="_blank"
             rel="noreferrer"
             title="فتح الموقع على الخريطة"
-            style={{ position: "absolute", top: 14, left: 14 }}
+            style={{ position: "absolute", top: -12, left: 16, zIndex: 2 }}
           >
             <FiMapPin size={18} />
           </a>
