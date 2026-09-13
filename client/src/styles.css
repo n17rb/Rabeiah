@@ -1,14 +1,15 @@
 :root {
-  --bg: #F6F8F8;
+  --bg: #F6F8FA;
   --surface: #FFFFFF;
-  --border: #E3E8E8;
-  --primary: #0E5B57;
-  --primary-dark: #0A4744;
+  --border: #E3E8EE;
+  --primary: #0094FF;
+  --primary-dark: #0077CC;
   --text: #16324A;
   --text-secondary: #6B7B80;
   --urgent: #C1443C;
   --success: #2E7D5B;
   --warning: #B8862E;
+  --whatsapp: #25D366;
 }
 
 * { box-sizing: border-box; }
@@ -231,3 +232,43 @@ button, input, select, textarea {
   justify-content: center;
   padding: 24px;
 }
+
+.icon-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-secondary);
+  cursor: pointer;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.icon-btn.whatsapp {
+  color: var(--whatsapp);
+  border-color: #cdeed9;
+}
+
+.icon-btn.map {
+  color: #fff;
+  background: var(--primary);
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 3px 8px rgba(0, 148, 255, 0.4);
+}
+
+.field-row {
+  display: flex;
+  gap: 10px;
+}
+.field-row .field { flex: 1; }
